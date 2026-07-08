@@ -1,0 +1,41 @@
+html {
+  color-scheme: dark;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#main-body {
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+  gap: 1rem;
+}
+
+.content-container {
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+  width: 100%;
+}
+
+.separator {
+  gap: 1rem;
+  height: 100%;
+  flex-direction: column;
+}
+
+.separation {
+  width: 5px;
+  height: 70%;
+  background-color: gray;
+}
+
+.time-display {
+  font-size: 3rem;
+  font-weight: bold;
+  font-family: monospace;
+}

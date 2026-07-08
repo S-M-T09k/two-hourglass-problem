@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tow Hourglass Problem</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="center" id="main-body">
+      <div class="content-container center" id="left-content">
+        <div class="center hourglass-container">
+          <div class="hourglass" id="left-hourglass">
+            this is the left hourglass
+          </div>
+        </div>
+
+        <div class="time-display" id="left-display">time</div>
+
+        <button class="rotator" id="rotate-left" type="button">rotate</button>
+      </div>
+
+      <div class="center separator">
+        <div class="time-display" id="recorded-time">0</div>
+        <div class="separation"></div>
+        <button type="button" id="continue">continue</button>
+        <button type="button" id="reset">reset</button>
+      </div>
+
+      <div class="content-container center" id="right-content">
+        <div class="center hourglass-container">
+          <div class="hourglass" id="right-hourglass">
+            this is the right hourglass
+          </div>
+        </div>
+
+        <div class="time-display" id="right-display">time</div>
+
+        <button class="rotator" id="rotate-right" type="button">rotate</button>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
