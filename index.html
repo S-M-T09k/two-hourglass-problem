@@ -7,11 +7,20 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <header>
+      <span class="explanation">explains the thing</span>
+      <span>
+        <a href="./creative">make your own hourglasses</a>
+      </span>
+    </header>
+
     <div class="center" id="main-body">
       <div class="content-container center" id="left-content">
         <div class="center hourglass-container">
           <div class="hourglass" id="left-hourglass">
-            this is the left hourglass
+            <div class="top-bulb"><div class="sand"></div></div>
+            <div class="stream"></div>
+            <div class="bottom-bulb"><div class="sand"></div></div>
           </div>
         </div>
 
@@ -24,13 +33,16 @@
         <div class="time-display" id="recorded-time">0</div>
         <div class="separation"></div>
         <button type="button" id="continue">continue</button>
+        <button type="button" id="skip" hidden>skip</button>
         <button type="button" id="reset">reset</button>
       </div>
 
       <div class="content-container center" id="right-content">
         <div class="center hourglass-container">
           <div class="hourglass" id="right-hourglass">
-            this is the right hourglass
+            <div class="top-bulb"><div class="sand"></div></div>
+            <div class="stream"></div>
+            <div class="bottom-bulb"><div class="sand"></div></div>
           </div>
         </div>
 
@@ -40,6 +52,25 @@
       </div>
     </div>
 
-    <script src="app.js"></script>
+    <div class="level-selector">
+      <a href="#default">default</a>
+      <a href="#1">1</a>
+      <a href="#2">2</a>
+      <a href="#3">3</a>
+      <a href="#4">4</a>
+      <a href="#5">5</a>
+      <a href="#6">6</a>
+      <a href="#7">7</a>
+      <a href="#8">8</a>
+      <a href="#9">9</a>
+      <a href="#10">10</a>
+      <a href="#random">random</a>
+    </div>
+
+    <div class="bottom-explanation">
+      <span>explains the specific tow and gives a challenge</span>
+    </div>
+
+    <script type="module" src="app.js"></script>
   </body>
 </html>

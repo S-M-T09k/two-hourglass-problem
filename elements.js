@@ -1,0 +1,10 @@
+export const leftHg = document.querySelector("#left-hourglass");
+export const rightHg = document.querySelector("#right-hourglass");
+export const leftRotateBtn = document.querySelector("#rotate-left");
+export const rightRotateBtn = document.querySelector("#rotate-right");
+export const continueBtn = document.querySelector("#continue");
+export const skipBtn = document.querySelector("#skip");
+export const resetBtn = document.querySelector("#reset");
+export const leftDisplay = document.querySelector("#left-display");
+export const rightDisplay = document.querySelector("#right-display");
+export const recordedTimeDisplay = document.querySelector("#recorded-time");

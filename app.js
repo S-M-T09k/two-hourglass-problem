@@ -1,120 +1,128 @@
-const leftHg = document.querySelector("#left-hourglass");
-const rightHg = document.querySelector("#right-hourglass");
-const leftRotateBtn = document.querySelector("#rotate-left");
-const rightRotateBtn = document.querySelector("#rotate-right");
-const continueBtn = document.querySelector("#continue");
-const resetBtn = document.querySelector("#reset");
-const leftDisplay = document.querySelector("#left-display");
-const rightDisplay = document.querySelector("#right-display");
-const recordedTimeDisplay = document.querySelector("#recorded-time");
+import Hourglass from "./hourglass.js";
+import * as el from "./elements.js";
 
-// console.log(document.querySelector("#left-content").className);
+let currentHourglasses = [];
+let recordedTime = 0;
+let targetTime = 7;
 
-class Hourglass {
-  constructor(element, display, time) {
-    this.element = element;
-    this.time = time;
-    this.upperTime = 0;
-    this.lowerTime = time;
-    this.display = display;
+const def1 = new Hourglass(el.leftHg, el.leftDisplay, 5);
+const def2 = new Hourglass(el.rightHg, el.rightDisplay, 3);
+currentHourglasses.push(def1, def2);
 
-    this.updateDisplay();
+el.leftRotateBtn.addEventListener("click", () => currentHourglasses[0].flip());
+el.rightRotateBtn.addEventListener("click", () => currentHourglasses[1].flip());
+
+el.continueBtn.addEventListener("click", () => {
+  runHourGlasses(currentHourglasses);
+});
+
+el.skipBtn.addEventListener("click", () => {
+  skipHourGlasses(currentHourglasses);
+});
+
+el.resetBtn.addEventListener("click", () => {
+  clearInterval(localStorage.getItem("nonZeroInterval"));
+  clearInterval(localStorage.getItem("zeroedInterval"));
+
+  currentHourglasses.forEach((hourglass) => hourglass.reset());
+
+  el.leftRotateBtn.disabled = false;
+  el.rightRotateBtn.disabled = false;
+
+  el.continueBtn.hidden = false;
+  el.skipBtn.hidden = true;
+
+  el.recordedTimeDisplay.innerText = recordedTime = 0;
+});
+
+function runHourGlasses(hourglasses) {
+  let emptyUpper = hourglasses.some((hourglass) => hourglass.upperTime === 0);
+  toggleBtns();
+
+  if (hourglasses.every((hourglass) => hourglass.upperTime === 0)) {
+    toggleBtns();
+    return console.log("sandless run");
   }
 
-  flip() {
-    this.upperTime = this.lowerTime;
-    this.lowerTime = this.time - this.upperTime;
+  if (emptyUpper) {
+    const zeroedIntervalID = setInterval(() => {
+      hourglasses.forEach((hourglass) => hourglass.tick());
+      recordedTime++;
+      el.recordedTimeDisplay.innerText = recordedTime;
 
-    this.element.classList.toggle("rotate");
-    this.updateDisplay();
-  }
+      if (hourglasses.every((hourglass) => hourglass.upperTime === 0)) {
+        clearInterval(zeroedIntervalID);
+        toggleBtns();
+      }
+    }, 500);
 
-  tick() {
-    if (this.upperTime > 0) {
-      this.upperTime--;
-      this.lowerTime++;
-    }
+    localStorage.setItem("zeroedInterval", zeroedIntervalID);
+  } else {
+    const nonZeroIntervalID = setInterval(() => {
+      hourglasses.forEach((hourglass) => hourglass.tick());
+      recordedTime++;
+      el.recordedTimeDisplay.innerText = recordedTime;
 
-    this.updateDisplay();
-  }
+      if (hourglasses.some((hourglass) => hourglass.upperTime === 0)) {
+        clearInterval(nonZeroIntervalID);
+        toggleBtns();
+      }
+    }, 500);
 
-  updateDisplay() {
-    if (this.lowerTime === 0) {
-      this.element.classList.remove("running");
-      this.element.classList.add("paused");
-
-      this.element.classList.add("sand-above");
-    } else if (this.upperTime === 0) {
-      this.element.classList.remove("running");
-      this.element.classList.add("paused");
-
-      this.element.classList.add("sand-below");
-    } else {
-      this.element.classList.remove("paused");
-      this.element.classList.add("running");
-
-      this.element.classList.add("sand-above");
-      this.element.classList.add("sand-below");
-    }
-
-    this.display.innerText = this.upperTime + "|" + this.lowerTime;
-  }
-
-  reset() {
-    this.upperTime = 0;
-    this.lowerTime = this.time;
-    this.updateDisplay();
+    localStorage.setItem("nonZeroInterval", nonZeroIntervalID);
   }
 }
 
-const firstHourGlass = new Hourglass(leftHg, leftDisplay, 5);
-const secondHourGlass = new Hourglass(rightHg, rightDisplay, 3);
-const hourglasses = [firstHourGlass, secondHourGlass];
-let recordedTime = 0;
-
-leftRotateBtn.addEventListener("click", () => firstHourGlass.flip());
-rightRotateBtn.addEventListener("click", () => secondHourGlass.flip());
-
-continueBtn.addEventListener("click", runHourGlasses);
-
-resetBtn.addEventListener("click", () => {
-  clearInterval(localStorage.getItem("firstInterval"));
-  clearInterval(localStorage.getItem("secondInterval"));
-
-  hourglasses.forEach((hourglass) => hourglass.reset());
-
-  recordedTimeDisplay.innerText = recordedTime = 0;
-});
-
-function runHourGlasses() {
-  clearInterval(localStorage.getItem("firstInterval"));
-  clearInterval(localStorage.getItem("secondInterval"));
+function skipHourGlasses(hourglasses) {
+  clearInterval(localStorage.getItem("nonZeroInterval"));
+  clearInterval(localStorage.getItem("zeroedInterval"));
 
   let emptyUpper = hourglasses.some((hourglass) => hourglass.upperTime === 0);
 
-  if (hourglasses.every((hourglass) => hourglass.upperTime === 0)) {
-    return;
-  } else if (emptyUpper) {
-    const secondIntervalID = setInterval(() => {
+  if (emptyUpper) {
+    while (hourglasses.some((hourglass) => hourglass.upperTime > 0)) {
       hourglasses.forEach((hourglass) => hourglass.tick());
-      recordedTimeDisplay.innerText = recordedTime++;
-
-      if (hourglasses.every((hourglass) => hourglass.upperTime === 0)) {
-        clearInterval(secondIntervalID);
-      }
-    }, 500);
-
-    localStorage.setItem("secondInterval", secondIntervalID);
+      recordedTime++;
+    }
   } else {
-    const firstIntervalID = setInterval(() => {
+    while (hourglasses.every((hourglass) => hourglass.upperTime > 0)) {
       hourglasses.forEach((hourglass) => hourglass.tick());
-      recordedTimeDisplay.innerText = recordedTime++;
-
-      if (hourglasses.some((hourglass) => hourglass.upperTime === 0)) {
-        clearInterval(firstIntervalID);
-      }
-    }, 500);
-
-    localStorage.setItem("firstInterval", firstIntervalID);
+      recordedTime++;
+    }
   }
+  el.recordedTimeDisplay.innerText = recordedTime;
+
+  toggleBtns();
+}
+
+//TODO:maybe I'll use this one
+function rewriteTest([hg1, hg2]) {
+  clearInterval(localStorage.getItem("nonZeroInterval"));
+  clearInterval(localStorage.getItem("zeroedInterval"));
+
+  const hgs = [hg1, hg2];
+
+  if (hg1.upperTime > 0 && hg2.upperTime > 0) {
+    while (hg1.upperTime > 0 && hg2.upperTime > 0) {
+      hgs.forEach((hourglass) => hourglass.tick());
+      recordedTime++;
+    }
+  } else if (hg1.upperTime > 0 || hg2.upperTime > 0) {
+    //could be just else{} or none
+    while (hg1.upperTime > 0 || hg2.upperTime > 0) {
+      hgs.forEach((hourglass) => hourglass.tick());
+      recordedTime++;
+    }
+  }
+  el.recordedTimeDisplay.innerText = recordedTime;
+
+  toggleBtns();
+}
+
+function toggleBtns() {
+  el.leftRotateBtn.disabled = !el.leftRotateBtn.disabled;
+  el.rightRotateBtn.disabled = !el.rightRotateBtn.disabled;
+
+  el.continueBtn.hidden = !el.continueBtn.hidden;
+  el.skipBtn.hidden = !el.skipBtn.hidden;
 }
