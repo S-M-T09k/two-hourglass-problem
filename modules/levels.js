@@ -1,0 +1,156 @@
+import Hourglass from "./hourglass.js";
+
+const levels = [
+  {
+    levelName: "default",
+    left: new Hourglass("left", 5),
+    right: new Hourglass("right", 3),
+    target: 7,
+    dec: "This is the default and easiest level. You have 5 and 3 hourglasses. The target time is 7. You can get to the target by just playing a bit. Good luck!",
+  },
+  {
+    levelName: "standard puzzle",
+    left: new Hourglass("left", 4),
+    right: new Hourglass("right", 7),
+    target: 9,
+    dec: "The original hourglass puzzle. You have 4 and 7 hourglasses. The target time is 9. This one's a bit harder but still not too hard.",
+  },
+  {
+    levelName: "Level 2: The Quick Extension",
+    left: new Hourglass("left", 8),
+    right: new Hourglass("right", 5),
+    target: 11,
+    dec: "Gemini generated. Fun Fact: Hourglasses aren't filled with beach sand! They use finely crushed marble, synthetic silica, or glass beads to ensure the grains don't clog up the narrow neck.",
+  },
+  {
+    levelName: "Level 6: The Long Stretch",
+    left: new Hourglass("left", 11),
+    right: new Hourglass("right", 7),
+    target: 15,
+    dec: "Gemini generated. Fun Fact: In the 1500s, Ferdinand Magellan kept 18 separate hourglasses on every ship during his voyage around the world to keep precise track of the ship's log and changing shifts. To reach 15: Start both. Flip right at 7 and 14. At 11, flip left (holding 4 mins of sand). At 14, right empties. Left has been running for 3 mins since its flip, leaving exactly 1 min of sand. When left finishes, you hit 15!",
+  },
+  {
+    levelName: "Level 7: The Interlocking Gears",
+    left: new Hourglass("left", 8),
+    right: new Hourglass("right", 3),
+    target: 14,
+    dec: "Gemini generated. Fun Fact: The narrow opening in the center of an hourglass is called the 'diaphragm.' To hit 14 cleanly: Chain your flips precisely as each glass completely empties its contents to accumulate the perfect total.",
+  },
+  {
+    levelName: "Level 3: The Four-Minute Micro-Window",
+    left: new Hourglass("left", 9),
+    right: new Hourglass("right", 7),
+    target: 12,
+    dec: "Gemini generated. Fun Fact: The oldest known illustration of an hourglass appears in a 1338 Italian fresco. To get 12: Start both. At 7, right empties (left has 2 left). Flip right. At 9, left empties (right has 5 left). Flip left (it has 2 on bottom). At 11, left empties (right has 3 left). Flip left again (it has 2 on bottom). At 13, left empties (right has 1 left). Flip right at 13 (it has 6 on bottom); it finishes at 19. Can you find the sequence that stops the clock exactly at 12?",
+  },
+  {
+    levelName: "6",
+    left: new Hourglass("left", 12),
+    right: new Hourglass("right", 5),
+    target: 22,
+    dec: "I don't know, I don't have time to be doing this",
+  },
+  {
+    levelName: "7",
+    left: new Hourglass("left", 14),
+    right: new Hourglass("right", 23),
+    target: 65,
+    dec: "This one appeared in the explanation video. It's pretty hard",
+  },
+  {
+    levelName: "8",
+    left: new Hourglass("left", 7),
+    right: new Hourglass("right", 16),
+    target: 31,
+    dec: "Gemini generated. Fun Fact: Sailors at sea used a 28-second hourglass to measure ship speed. They threw a knotted rope in the water and counted how many knots ran through their hands before the sand ran out—hence the term 'knots' for speed!",
+  },
+  {
+    levelName: "9",
+    left: new Hourglass("left", 28),
+    right: new Hourglass("right", 6),
+    target: 32,
+    dec: "Gemini generated. Fun Fact: The largest working hourglass in the world is located in Nima, Japan. It is called the 'Sun-Diala' and takes an entire year for all its sand to flow from the top bulb to the bottom! To reach 13: Loop your 5-minute timer twice to create a 10-minute checkpoint, matching the remainder of your 9-minute glass.",
+  },
+  {
+    levelName: "Level 10: The Grandmaster's Fracture",
+    left: new Hourglass("left", 15),
+    right: new Hourglass("right", 11),
+    target: 60,
+    dec: "Gemini generated. Fun Fact: The British Parliament uses a 2-minute hourglass to time its voting calls. This is the ultimate test for your simulator: isolating an exact 3-minute or 4-minute offset and cycling it across a 15-minute frame to stop the clock precisely at 18.",
+  },
+];
+
+const geminiGenerated = [
+  {
+    levelName: "Level 1: The Standard Interval",
+    left: new Hourglass("left", 7),
+    right: new Hourglass("right", 4),
+    target: 9,
+    dec: "Gemini generated. Fun Fact: The ancient Greeks called hourglasses 'clepsydrae' (though that term originally referred to water clocks!). To reach 9: Start both. Flip right when it empties (4 mins passed). Flip right again when it empties (8 mins passed). At 8 mins, left has 1 min left. When left empties, 9 mins have passed!",
+  },
+  {
+    levelName: "Level 2: The Quick Extension",
+    left: new Hourglass("left", 8),
+    right: new Hourglass("right", 5),
+    target: 11,
+    dec: "Gemini generated. Fun Fact: Hourglasses aren't filled with beach sand! They use finely crushed marble, synthetic silica, or glass beads to ensure the grains don't clog up the narrow neck. To reach 11: Start both. Flip right at 5. Flip right at 10. When left empties at 8, flip it instantly; it will empty its 3 accumulated minutes exactly at minute 11!",
+  },
+  {
+    levelName: "Level 3: The Assembly Line",
+    left: new Hourglass("left", 5),
+    right: new Hourglass("right", 3),
+    target: 8,
+    dec: "Gemini generated. Fun Fact: The oldest known illustration of an hourglass appears in a 1338 fresco by Ambrogio Lorenzetti called 'Allegory of Good Government.' To reach 8: Simply run them sequentially or combine them cleanly!",
+  },
+  {
+    levelName: "Level 4: The Double-Up",
+    left: new Hourglass("left", 7),
+    right: new Hourglass("right", 3),
+    target: 10,
+    dec: "Gemini generated. Fun Fact: Sailors at sea used a 28-second hourglass to measure ship speed. They threw a knotted rope in the water and counted how many knots ran through their hands before the sand ran out—hence the term 'knots' for speed!",
+  },
+  {
+    levelName: "Level 5: The Precise Window",
+    left: new Hourglass("left", 7),
+    right: new Hourglass("right", 5),
+    target: 12,
+    dec: "Gemini generated. Fun Fact: Unlike mechanical clocks, gravity doesn't care how full an hourglass is; the sand flows at a constant rate regardless of how much sand is pressing down from the top bulb.",
+  },
+  {
+    levelName: "Level 6: The Long Stretch",
+    left: new Hourglass("left", 11),
+    right: new Hourglass("right", 7),
+    target: 15,
+    dec: "Gemini generated. Fun Fact: In the 1500s, Ferdinand Magellan kept 18 separate hourglasses on every ship during his voyage around the world to keep precise track of the ship's log and changing shifts. To reach 15: Start both. Flip right at 7 and 14. At 11, flip left (holding 4 mins of sand). At 14, right empties. Left has been running for 3 mins since its flip, leaving exactly 1 min of sand. When left finishes, you hit 15!",
+  },
+  {
+    levelName: "Level 7: The Interlocking Gears",
+    left: new Hourglass("left", 8),
+    right: new Hourglass("right", 3),
+    target: 14,
+    dec: "Gemini generated. Fun Fact: The narrow opening in the center of an hourglass is called the 'diaphragm.' To hit 14 cleanly: Chain your flips precisely as each glass completely empties its contents to accumulate the perfect total.",
+  },
+  {
+    levelName: "Level 8: The Continuous Chain",
+    left: new Hourglass("left", 11),
+    right: new Hourglass("right", 4),
+    target: 19,
+    dec: "Gemini generated. Fun Fact: Hourglasses are perfectly symmetrical so that they run at the exact same speed no matter which side is up. To reach 19: Keep looping the 4-minute timer to perfectly segment and track the remaining intervals of the 11-minute timer.",
+  },
+  {
+    levelName: "Level 9: The Minimalist Shift",
+    left: new Hourglass("left", 9),
+    right: new Hourglass("right", 5),
+    target: 13,
+    dec: "Gemini generated. Fun Fact: The largest working hourglass in the world is located in Nima, Japan. It is called the 'Sun-Diala' and takes an entire year for all its sand to flow from the top bulb to the bottom! To reach 13: Loop your 5-minute timer twice to create a 10-minute checkpoint, matching the remainder of your 9-minute glass.",
+  },
+  {
+    levelName: "Level 10: The Grandmaster's Countdown",
+    left: new Hourglass("left", 15),
+    right: new Hourglass("right", 7),
+    target: 23,
+    dec: "Gemini generated. Fun Fact: The famous Parliament house in the UK uses an exactly 2-minute hourglass to time divisions, giving members of parliament just enough time to get to the voting lobbies. To reach 23: Run both. Flip right at 7 and 14. At 15, left empties; flip it (holding 1 min of sand). At 21, right empties. Left finished its 1 min at 16, so it has now accumulated 5 mins of sand on the bottom. Flip left at 21, and its 5 mins will empty exactly at minute 26... wait, to hit 23 exactly: Flip left at 15 (it has 1 min). It empties at 16. Let it sit. At 21 (right empties), left has caught 5 mins of sand. Flip left at 21, it runs out at 26. If you flip right at 14, it has 1 min remaining at 15. Flip right at 15, it empties at 16. This creates a perfect 1-minute tracking block to hit 23 precisely!",
+  },
+];
+
+export default levels;

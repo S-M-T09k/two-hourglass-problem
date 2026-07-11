@@ -4,11 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tow Hourglass Problem</title>
+    <link rel="shortcut icon" href="hourglass.png" type="image/x-icon" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header>
-      <span class="explanation">explains the thing</span>
+      <span class="explanation">
+        This is a game where you have tow hourglasses to make the target time.
+        <br />
+        there's no eyeballing, loopholes, tilting and such you know the time and
+        that's it <br />
+        check
+        <a href="https://youtu.be/mPxUMwmG_wU?si=H3JGbMHpTj1lqxwe"
+          >this video</a
+        >
+        for a more in depth explanation and solution to most of the problems
+      </span>
       <span>
         <a href="./creative">make your own hourglasses</a>
       </span>
@@ -35,6 +46,7 @@
         <button type="button" id="continue">continue</button>
         <button type="button" id="skip" hidden>skip</button>
         <button type="button" id="reset">reset</button>
+        <span>target time: <span id="target-time">#</span></span>
       </div>
 
       <div class="content-container center" id="right-content">
@@ -68,6 +80,11 @@
     </div>
 
     <div class="bottom-explanation">
+      The objective is to get the target time using the time in the two
+      hourglasses. The rotate button will rotate the hourglasses, and the
+      continue button will run them. when one of the hourglasses reaches zero,
+      the time will stop, allowing you to adjust the rotations.
+      <br />
       <span>explains the specific tow and gives a challenge</span>
     </div>
 

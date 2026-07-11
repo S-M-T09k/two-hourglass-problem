@@ -1,46 +1,11 @@
-import * as el from "./modules/elements.js";
-import Hourglass from "./modules/hourglass.js";
-import levels from "./modules/levels.js";
+import * as el from "../modules/elements.js";
+import Hourglass from "../modules/hourglass.js";
 
 let recordedTime = 0;
-let currentHourglasses = [levels[0].left, levels[0].right];
-let targetTime = levels[0].target;
-el.targetTime.innerText = targetTime;
-el.description.innerText = levels[0].dec;
-currentHourglasses.forEach((hourglass) => hourglass.updateDisplay());
+let currentHourglasses = [];
 
 el.leftRotateBtn.addEventListener("click", () => currentHourglasses[0].flip());
 el.rightRotateBtn.addEventListener("click", () => currentHourglasses[1].flip());
-
-window.addEventListener("hashchange", (e) => {
-  let levelSelection = e.newURL.slice(e.newURL.indexOf("#") + 1);
-  let level;
-
-  if (levelSelection === "random") {
-    level = {
-      levelName: "random",
-      left: new Hourglass("left", randInt(3, 25)),
-      right: new Hourglass("right", randInt(3, 25)),
-      target: randInt(3, 100),
-      dec: "This is a random level, which may or may not be possible. The random hourglasses are picked between 3 and 25 and the target is picked between 3 and 100. Good luck!",
-    };
-  } else if (levelSelection === "default") {
-    level = levels[0];
-  } else {
-    level = levels[parseInt(levelSelection)];
-  }
-
-  currentHourglasses = [level.left, level.right];
-  targetTime = level.target;
-  el.targetTime.innerText = targetTime;
-  recordedTime = 0;
-  currentHourglasses.forEach((hourglass) => hourglass.updateDisplay());
-
-  el.description.innerText = level.dec;
-});
-window.addEventListener("load", (e) => {
-  window.location.hash = "#default";
-});
 
 el.continueBtn.addEventListener("click", () => {
   runHourGlasses(currentHourglasses);
@@ -48,8 +13,28 @@ el.continueBtn.addEventListener("click", () => {
 el.skipBtn.addEventListener("click", () => {
   skipHourGlasses(currentHourglasses);
 });
+el.setBtn.addEventListener("click", () => {
+  if (parseInt(el.leftInput.value) > 0 && parseInt(el.rightInput.value) > 0) {
+    currentHourglasses = [
+      new Hourglass("left", parseInt(el.leftInput.value)),
+      new Hourglass("right", parseInt(el.rightInput.value)),
+    ];
+
+    toggleInputs();
+    el.leftRotateBtn.disabled = false;
+    el.rightRotateBtn.disabled = false;
+    currentHourglasses.forEach((hourglass) => hourglass.updateDisplay());
+
+    el.resetBtn.disabled = false;
+  }
+});
 el.resetBtn.addEventListener("click", () => {
   resetHourglasses(currentHourglasses);
+  toggleInputs();
+  el.leftRotateBtn.disabled = true;
+  el.rightRotateBtn.disabled = true;
+
+  el.resetBtn.disabled = true;
 });
 
 function runHourGlasses(hourglasses) {
@@ -70,7 +55,6 @@ function runHourGlasses(hourglasses) {
       if (hourglasses.every((hourglass) => hourglass.upperTime === 0)) {
         clearInterval(zeroedIntervalID);
         toggleBtns();
-        checkWin();
       }
     }, 500);
 
@@ -84,7 +68,6 @@ function runHourGlasses(hourglasses) {
       if (hourglasses.some((hourglass) => hourglass.upperTime === 0)) {
         clearInterval(nonZeroIntervalID);
         toggleBtns();
-        checkWin();
       }
     }, 500);
 
@@ -111,8 +94,6 @@ function skipHourGlasses(hourglasses) {
   }
   el.recordedTime.innerText = recordedTime;
 
-  checkWin();
-
   toggleBtns();
 }
 
@@ -131,40 +112,6 @@ function resetHourglasses(hourglasses) {
   el.recordedTime.innerText = recordedTime = 0;
 }
 
-function checkWin() {
-  if (recordedTime === targetTime) {
-    setTimeout(() => {
-      alert(
-        `You did it. Good Job! \nthat's all for the win, I have nothing else \nmaybe you can think of something better?`,
-      );
-    }, 1000);
-  }
-}
-
-//TODO:maybe I'll use this one; nah, gonna just continue with the semi-readable code
-function rewriteTest([hg1, hg2]) {
-  clearInterval(localStorage.getItem("nonZeroInterval"));
-  clearInterval(localStorage.getItem("zeroedInterval"));
-
-  const hgs = [hg1, hg2];
-
-  if (hg1.upperTime > 0 && hg2.upperTime > 0) {
-    while (hg1.upperTime > 0 && hg2.upperTime > 0) {
-      hgs.forEach((hourglass) => hourglass.tick());
-      recordedTime++;
-    }
-  } else if (hg1.upperTime > 0 || hg2.upperTime > 0) {
-    //could be just else{} or none
-    while (hg1.upperTime > 0 || hg2.upperTime > 0) {
-      hgs.forEach((hourglass) => hourglass.tick());
-      recordedTime++;
-    }
-  }
-  el.recordedTime.innerText = recordedTime;
-
-  toggleBtns();
-}
-
 //*utils
 function toggleBtns() {
   el.leftRotateBtn.disabled = !el.leftRotateBtn.disabled;
@@ -174,6 +121,13 @@ function toggleBtns() {
   el.skipBtn.hidden = !el.skipBtn.hidden;
 }
 
-function randInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+function toggleInputs() {
+  el.leftInput.hidden = !el.leftInput.hidden;
+  el.rightInput.hidden = !el.rightInput.hidden;
+
+  el.leftDisplay.hidden = !el.leftDisplay.hidden;
+  el.rightDisplay.hidden = !el.rightDisplay.hidden;
+
+  el.setBtn.hidden = !el.setBtn.hidden;
+  el.continueBtn.hidden = !el.continueBtn.hidden;
 }

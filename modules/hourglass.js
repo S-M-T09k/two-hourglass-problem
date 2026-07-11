@@ -1,12 +1,20 @@
+import * as el from "./elements.js";
+
 class Hourglass {
-  constructor(element, display, time) {
-    this.element = element;
+  constructor(side, time) {
     this.time = time;
     this.upperTime = 0;
     this.lowerTime = time;
-    this.display = display;
 
-    this.updateDisplay();
+    if (side === "left") {
+      this.element = el.leftHg;
+      this.display = el.leftDisplay;
+    } else if (side === "right") {
+      this.element = el.rightHg;
+      this.display = el.rightDisplay;
+    }
+
+    // this.updateDisplay();
   }
 
   flip() {

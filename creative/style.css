@@ -75,10 +75,8 @@ header a {
   flex: 1;
 }
 
-/* Center Divider Elements */
 .separator {
   gap: 1.5rem;
-  height: 100%;
   flex-direction: column;
   min-width: 140px;
 }
@@ -94,26 +92,6 @@ header a {
   );
 }
 
-/* --- Target Time Styling Display --- */
-.separator > span {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-muted);
-  font-weight: 600;
-  margin-top: 0.5rem;
-  text-align: center;
-}
-
-#target-time {
-  display: block; /* Moves the numeric value directly beneath the label text */
-  font-size: 1.75rem;
-  font-family: monospace;
-  color: var(--accent-color);
-  margin-top: 0.25rem;
-  text-shadow: 0 0 8px var(--accent-glow);
-}
-
 .time-display {
   font-size: 2.5rem;
   font-weight: 700;
@@ -122,6 +100,8 @@ header a {
   background: rgba(0, 0, 0, 0.2);
   padding: 0.5rem 1.5rem;
   border-radius: 8px;
+  width: 4ch;
+  text-align: center;
 }
 
 #recorded-time {
@@ -145,6 +125,13 @@ button {
 
 button:hover {
   background-color: #475569;
+}
+#set-time {
+  background-color: #3b82f6;
+  color: #000;
+}
+#set-time:hover {
+  background-color: #2432fb;
 }
 #continue {
   background-color: var(--accent-color);

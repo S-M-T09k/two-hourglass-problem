@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>creative mode : tow hg pb</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="/hourglass.png" type="image/x-icon" />
+  </head>
+  <body>
+    <header>
+      <span class="explanation">
+        check
+        <a href="https://youtu.be/mPxUMwmG_wU?si=H3JGbMHpTj1lqxwe"
+          >this video</a
+        >
+        for a more in depth explanation and solution to most of the problems
+      </span>
+      <span>
+        <a href="/#default">go back to levels</a>
+      </span>
+    </header>
+
+    <div class="center" id="main-body">
+      <div class="content-container center" id="left-content">
+        <div class="center hourglass-container">
+          <div class="hourglass" id="left-hourglass">
+            <div class="top-bulb"><div class="sand"></div></div>
+            <div class="stream"></div>
+            <div class="bottom-bulb"><div class="sand"></div></div>
+          </div>
+        </div>
+
+        <input
+          type="text"
+          placeholder="time"
+          value="time"
+          class="time-display"
+          id="left-input"
+        />
+        <div class="time-display" id="left-display" hidden>time</div>
+
+        <button class="rotator" id="rotate-left" type="button" disabled>
+          rotate
+        </button>
+      </div>
+
+      <div class="center separator">
+        <div class="time-display" id="recorded-time">0</div>
+        <div class="separation"></div>
+        <button type="button" id="set-time">set time</button>
+        <button type="button" id="continue" hidden>continue</button>
+        <button type="button" id="skip" hidden>skip</button>
+        <button type="button" id="reset" disabled>reset</button>
+      </div>
+
+      <div class="content-container center" id="right-content">
+        <div class="center hourglass-container">
+          <div class="hourglass" id="right-hourglass">
+            <div class="top-bulb"><div class="sand"></div></div>
+            <div class="stream"></div>
+            <div class="bottom-bulb"><div class="sand"></div></div>
+          </div>
+        </div>
+
+        <input
+          type="text"
+          placeholder="time"
+          value="time"
+          class="time-display"
+          id="right-input"
+        />
+        <div class="time-display" id="right-display" hidden>time</div>
+
+        <button class="rotator" id="rotate-right" type="button" disabled>
+          rotate
+        </button>
+      </div>
+    </div>
+
+    <div class="bottom-explanation">
+      <span
+        >You're in creative mode. Make your won hourglasses and try out any
+        combinations</span
+      >
+    </div>
+
+    <script type="module" src="creative.js"></script>
+  </body>
+</html>
